@@ -198,3 +198,5 @@ print "Testing isValidWord..."
 test_isValidWord(wordList)
 print "----------------------------------------------------------------------"
 print "All done!"
+wordList = loadWords()
+playHand({'h':1, 'i':1, 'c':1, 'z':1, 'm':2, 'a':1}, wordList, 7)

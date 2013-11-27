@@ -21,25 +21,35 @@ def compChooseWord(hand, wordList):
     wordList: list (string)
     returns: string or None
     """
-    # BEGIN PSEUDOCODE <-- Remove this comment when you code this function; do your coding within the pseudocode (leaving those comments in-place!)
+    n = calculateHandlen(hand)
+    
     # Create a new variable to store the maximum score seen so far (initially 0)
 
+    maxScore = 0
+
     # Create a new variable to store the best word seen so far (initially None)  
+    bestWord = 0
 
     # For each word in the wordList
 
         # If you can construct the word from your hand
         # (hint: you can use isValidWord, or - since you don't really need to test if the word is in the wordList - you can make a similar function that omits that test)
-
+    for word in wordList:
+        if isValidWord(word, hand, wordList):
+        
             # Find out how much making that word is worth
-
             # If the score for that word is higher than your best score
-
-                # Update your best score, and best word accordingly
-
-
+            if getWordScore(word, n) > maxScore:
+                maxScore = getWordScore(word, n)
+                
+            # Update your best score, and best word accordingly
+                bestWord = word
+            
     # return the best word you found.
-
+    if maxScore == 0:
+        return None
+    else:
+        return bestWord
 
 #
 # Problem #7: Computer plays a hand
@@ -62,13 +72,48 @@ def compPlayHand(hand, wordList):
     hand: dictionary (string -> int)
     wordList: list (string)
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    # Keep track of two numbers: the number of letters left in your hand and the total score
+    score = 0
+    n = calculateHandlen(hand)
+    # As long as there are still letters left in the hand:
+    while calculateHandlen(hand) > 0:
+        
+        # Display the hand
+        print 'Current Hand: ',
+        displayHand(hand)
+        
+        # Computer inputs word
+        word = compChooseWord(hand, wordList)
+        
+        # If computer is out of words:
+        if word == None:
+            
+            # End the game (break out of the loop)
+            break
+            
+        # Otherwise (the input is not a single period):
+        else:
+                
+            # Tell the user how many points the word earned, and the updated total score, in one line followed by a blank line
+            score += getWordScore(word, n)
+            print ('"' + str(word) + '"' + ' earned ' + str(getWordScore(word, n)) + ' points. Total: ' + str(score) + ' points')
+
+            # Update the hand 
+            hand = updateHand(hand, word)
+
+    # Game is over (user entered a '.' or ran out of letters), so tell user the total score
+    if calculateHandlen(hand) == 0:
+        print ('Run out of letters. Total score: ' + str(score) + ' points.')
+    else:
+        print ('Goodbye! Total score: ' + str(score) + ' points.')
+
+        
     
 #
 # Problem #8: Playing a game
 #
 #
-def playGame(wordList):
+def compPlayGame(wordList):
     """
     Allow the user to play an arbitrary number of hands.
  
@@ -92,10 +137,12 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print "playGame not yet implemented." # <-- Remove this when you code this function
+    #start user game
 
-        
+    #ask user to input u or c
+
+    #if inputs anything but u or c, ask user to start again
+            
 #
 # Build data structures used for entire session and play game
 #
